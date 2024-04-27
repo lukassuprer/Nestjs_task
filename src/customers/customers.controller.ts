@@ -8,27 +8,27 @@ export class CustomersController {
   constructor(private readonly customersService: CustomersService) { }
 
   @Get()
-  async getAllCustomers(): Promise<Customer[]> {
-    return this.customersService.getCustomers();
+  async getAll(): Promise<Customer[]> {
+    return this.customersService.getAll();
   }
 
   // get one customer by id
   @Get('/:id')
-  getCustomer(@Param('id', ParseIntPipe) id: number): Customer {
-    const customer = this.customersService.findCustomerById(id);
+  async get(@Param('id', ParseIntPipe) id: number): Promise<Customer> {
+    const customer = this.customersService.get(id);
     if (!customer) throw new HttpException('Customer not found', HttpStatus.NOT_FOUND);
     return customer;
   }
 
   // Create a new customer
   @Post()
-  async createCustomer(@Body() createCustomerDto: CreateCustomerDto) {
-    this.customersService.create(createCustomerDto);
+  async create(@Body() createCustomerDto: CreateCustomerDto) {
+    return this.customersService.create(createCustomerDto);
   }
 
   // edit a customer by id
   @Put(':id')
-  updateCustomer(@Param('id', ParseIntPipe) id: number, @Body() updateCustomerDto: UpdateCustomerDto) {
-    this.customersService.update(id, updateCustomerDto);
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateCustomerDto: UpdateCustomerDto) {
+    return this.customersService.update(id, updateCustomerDto);
   }
 }
