@@ -1,5 +1,12 @@
-export interface CreateCustomerDto {
+import { ApiProperty } from '@nestjs/swagger';
+
+export class CreateCustomerDto {
+    @ApiProperty()
     id: number;
+
+    @ApiProperty()
     name: string;
+
+    @ApiProperty()
     birthdate: Date;
 }
