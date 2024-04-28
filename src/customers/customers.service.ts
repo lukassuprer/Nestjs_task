@@ -1,20 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { Customer } from './interfaces/customer.interface';
+import { faker } from '@faker-js/faker';
+import { count } from 'console';
+
+function createRandomCustomer(): Customer {
+  return {
+    id: 0,
+    name: faker.internet.userName(),
+    birthdate: faker.date.birthdate(),
+  };
+}
+
+function setCustomerId(customer: Customer, id: number): Customer {
+  return {
+    ...customer,
+    id,
+  };
+}
 
 @Injectable()
 export class CustomersService {
-  private readonly customers: Customer[] = [
-    {
-      id: 0,
-      name: 'My name',
-      birthdate: new Date('2001-01-01'),
-    },
-    {
-      id: 1,
-      name: 'No Name',
-      birthdate: new Date('1901-02-02'),
-    },
-  ];
+  private customers: Customer[] = faker.helpers.multiple(createRandomCustomer).map(setCustomerId);
 
   getAll(): Customer[] {
     return this.customers;
